@@ -1,16 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Building2, Briefcase, Stethoscope, Wind, Flame, HardHat, Bug, Shield, ArrowRight, Leaf, Info } from 'lucide-react';
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  Building2,
+  Briefcase,
+  Stethoscope,
+  Wind,
+  Flame,
+  HardHat,
+  Bug,
+  Shield,
+  ArrowRight,
+  Leaf,
+  Info,
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { services } from '@/data/services';
+import { services } from '@/data/services'; // Assurez-vous que ce chemin est correct
 
 const Services: React.FC = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
+  // Observer pour l'animation d'apparition au scroll
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -21,27 +40,28 @@ const Services: React.FC = () => {
       { threshold: 0.1 }
     );
 
-    const element = document.getElementById('services');
-    if (element) {
-      observer.observe(element);
+    const sectionElement = document.getElementById('services');
+    if (sectionElement) {
+      observer.observe(sectionElement);
     }
 
     return () => {
-      if (element) {
-        observer.unobserve(element);
+      if (sectionElement) {
+        observer.unobserve(sectionElement);
       }
     };
   }, []);
 
+  // Variants d'animation pour la grille de services
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
         staggerChildren: 0.1,
-        delayChildren: 0.3
-      }
-    }
+        delayChildren: 0.3,
+      },
+    },
   };
 
   const itemVariants = {
@@ -50,18 +70,21 @@ const Services: React.FC = () => {
       y: 0,
       opacity: 1,
       transition: {
-        type: "spring",
+        type: 'spring',
         stiffness: 100,
-        damping: 15
-      }
-    }
+        damping: 15,
+      },
+    },
   };
 
   return (
-    <section id="services" className="section-gap py-24 relative overflow-hidden">
-      {/* Animated background elements */}
+    <section
+      id="services"
+      className="section-gap py-24 relative overflow-hidden"
+    >
+      {/* Arrière-plan animé */}
       <div className="absolute inset-0 pointer-events-none">
-        <motion.div 
+        <motion.div
           className="absolute top-40 left-10 w-64 h-64 rounded-full bg-eco-green-100/50 blur-3xl"
           animate={{
             scale: [1, 1.2, 1],
@@ -70,10 +93,10 @@ const Services: React.FC = () => {
           transition={{
             duration: 8,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: 'easeInOut',
           }}
         />
-        <motion.div 
+        <motion.div
           className="absolute bottom-40 right-10 w-80 h-80 rounded-full bg-eco-green-50/80 blur-3xl"
           animate={{
             scale: [1, 1.1, 1],
@@ -82,19 +105,21 @@ const Services: React.FC = () => {
           transition={{
             duration: 6,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: 'easeInOut',
           }}
         />
       </div>
-      
+
+      {/* Contenu principal */}
       <div className="container mx-auto px-4 relative z-10">
-        <motion.div 
+        {/* En-tête */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isVisible ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
           className="text-center max-w-2xl mx-auto mb-16"
         >
-          <motion.div 
+          <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={isVisible ? { scale: 1, opacity: 1 } : {}}
             transition={{ delay: 0.2, duration: 0.5 }}
@@ -103,7 +128,8 @@ const Services: React.FC = () => {
             <Leaf className="mr-2 h-4 w-4" />
             <span>Nos Prestations</span>
           </motion.div>
-          <motion.h2 
+
+          <motion.h2
             initial={{ y: 20, opacity: 0 }}
             animate={isVisible ? { y: 0, opacity: 1 } : {}}
             transition={{ delay: 0.3, duration: 0.6 }}
@@ -111,13 +137,15 @@ const Services: React.FC = () => {
           >
             Des Solutions Adaptées à Vos Besoins
           </motion.h2>
-          <motion.div 
+
+          <motion.div
             initial={{ width: 0 }}
-            animate={isVisible ? { width: "5rem" } : {}}
+            animate={isVisible ? { width: '5rem' } : {}}
             transition={{ delay: 0.4, duration: 0.6 }}
             className="h-1 bg-eco-green-500 mx-auto mb-6"
           />
-          <motion.p 
+
+          <motion.p
             initial={{ y: 20, opacity: 0 }}
             animate={isVisible ? { y: 0, opacity: 1 } : {}}
             transition={{ delay: 0.5, duration: 0.6 }}
@@ -127,45 +155,45 @@ const Services: React.FC = () => {
           </motion.p>
         </motion.div>
 
-        <motion.div 
+        {/* Grille de services */}
+        <motion.div
           variants={containerVariants}
           initial="hidden"
-          animate={isVisible ? "visible" : "hidden"}
+          animate={isVisible ? 'visible' : 'hidden'}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           {services.map((service, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              className="transform-gpu"
-            >
-              <Card 
+            <motion.div key={index} variants={itemVariants}>
+              <Card
                 className={cn(
-                  "border-none shadow-lg hover:shadow-xl transition-all duration-500 h-full overflow-hidden group relative bg-white/80 backdrop-blur-sm",
-                  "hover:scale-[1.02] hover:-translate-y-1",
-                  "rounded-xl"
+                  'border-none shadow-lg hover:shadow-xl transition-all duration-500 h-full overflow-hidden group relative bg-white/80 backdrop-blur-sm',
+                  'hover:scale-[1.02] hover:-translate-y-1',
+                  'rounded-xl'
                 )}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
               >
-                <motion.div 
+                {/* Section icône */}
+                <motion.div
                   className={cn(
-                    "bg-gradient-to-br p-8 flex justify-center items-center transition-all duration-500",
+                    'bg-gradient-to-br p-8 flex justify-center items-center transition-all duration-500',
                     service.color,
-                    "h-48"
+                    'h-48'
                   )}
                   whileHover={{ scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 >
-                  <motion.div 
+                  <motion.div
                     className="rounded-full bg-white/20 w-28 h-28 flex items-center justify-center transform transition-transform duration-500 relative"
                     whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.8, ease: "easeInOut" }}
+                    transition={{ duration: 0.8, ease: 'easeInOut' }}
                   >
-                    {React.createElement(service.icon, { className: "h-12 w-12 text-white" })}
+                    {React.createElement(service.icon, {
+                      className: 'h-12 w-12 text-white',
+                    })}
                     <AnimatePresence>
                       {hoveredIndex === index && (
-                        <motion.div 
+                        <motion.div
                           initial={{ scale: 0, opacity: 0 }}
                           animate={{ scale: 1, opacity: 1 }}
                           exit={{ scale: 0, opacity: 0 }}
@@ -175,14 +203,18 @@ const Services: React.FC = () => {
                     </AnimatePresence>
                   </motion.div>
                 </motion.div>
-                
+
+                {/* Titre & Description */}
                 <CardHeader className="pb-2 pt-6">
-                  <CardTitle className="text-2xl font-bold text-center mb-2">{service.title}</CardTitle>
+                  <CardTitle className="text-2xl font-bold text-center mb-2">
+                    {service.title}
+                  </CardTitle>
                   <CardDescription className="text-center text-foreground/80 text-base leading-relaxed">
                     {service.description}
                   </CardDescription>
                 </CardHeader>
-                
+
+                {/* Liste des fonctionnalités */}
                 <CardContent>
                   <div className="space-y-4">
                     <div className="flex items-center justify-center gap-2 text-eco-green-600 mb-4">
@@ -191,39 +223,57 @@ const Services: React.FC = () => {
                     </div>
                     <ul className="space-y-3">
                       {service.features.map((feature, featureIndex) => (
-                        <motion.li 
+                        <motion.li
                           key={featureIndex}
                           initial={{ x: -20, opacity: 0 }}
-                          animate={hoveredIndex === index ? { x: 0, opacity: 1 } : { x: -20, opacity: 0 }}
+                          animate={
+                            hoveredIndex === index
+                              ? { x: 0, opacity: 1 }
+                              : { x: -20, opacity: 0 }
+                          }
                           transition={{ delay: featureIndex * 0.1 }}
                           className="flex items-start"
                         >
                           <div className="mr-3 mt-1.5 flex items-center justify-center">
-                            <motion.div 
+                            <motion.div
                               className="h-2 w-2 rounded-full bg-eco-green-500"
-                              animate={hoveredIndex === index ? { scale: [1, 1.5, 1] } : {}}
-                              transition={{ duration: 1, repeat: Infinity }}
+                              animate={
+                                hoveredIndex === index
+                                  ? { scale: [1, 1.5, 1] }
+                                  : {}
+                              }
+                              transition={{
+                                duration: 1,
+                                repeat: Infinity,
+                              }}
                             />
                           </div>
-                          <span className="text-sm text-foreground/80">{feature}</span>
+                          <span className="text-sm text-foreground/80">
+                            {feature}
+                          </span>
                         </motion.li>
                       ))}
                     </ul>
                   </div>
-                  
-                  <motion.div 
+
+                  {/* Bouton CTA */}
+                  <motion.div
                     className="text-center mt-6"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     <Link to={`/services/${service.id}`}>
-                      <Button 
-                        className="bg-eco-green-500 hover:bg-eco-green-600 text-white px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 w-full"
-                      >
-                        <span className="text-sm font-medium">{service.cta}</span>
+                      <Button className="bg-eco-green-500 hover:bg-eco-green-600 text-white px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 w-full">
+                        <span className="text-sm font-medium">
+                          {service.cta}
+                        </span>
                         <motion.div
                           animate={hoveredIndex === index ? { x: 5 } : { x: 0 }}
-                          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                          transition={{
+                            type: 'spring',
+                            stiffness: 300,
+                            damping: 20,
+                          }}
                         >
                           <ArrowRight className="ml-2 h-4 w-4" />
                         </motion.div>
@@ -231,18 +281,22 @@ const Services: React.FC = () => {
                     </Link>
                   </motion.div>
                 </CardContent>
-                
-                {/* Background pattern */}
-                <motion.div 
+
+                {/* Effet décoratif au survol */}
+                <motion.div
                   className="absolute top-32 right-0 w-32 h-32 bg-eco-green-100 rounded-full opacity-10 transform translate-x-16 translate-y-8"
                   animate={hoveredIndex === index ? { rotate: 360 } : {}}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                  transition={{
+                    duration: 20,
+                    repeat: Infinity,
+                    ease: 'linear',
+                  }}
                 />
-                
-                {/* Hover indicator */}
+
+                {/* Indicateur de hover */}
                 <AnimatePresence>
                   {hoveredIndex === index && (
-                    <motion.div 
+                    <motion.div
                       initial={{ scaleX: 0, opacity: 0 }}
                       animate={{ scaleX: 1, opacity: 1 }}
                       exit={{ scaleX: 0, opacity: 0 }}

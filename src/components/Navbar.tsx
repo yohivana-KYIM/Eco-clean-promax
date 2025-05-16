@@ -83,6 +83,7 @@ const Navbar = () => {
         { label: "Désinfection et Dératisation", href: "/services/desinfection" }
       ]
     },
+    { label: "Blog", href: "/blog" },
     { label: "Témoignages", href: "/#testimonials" },
     { label: "Contact", href: "/#contact" }
   ];
@@ -282,6 +283,13 @@ const Navbar = () => {
                   className="block text-sm sm:text-base font-medium text-gray-900 hover:text-eco-green-600 transition-colors duration-200 w-full text-left py-1.5 hover:bg-eco-green-50/50 rounded-lg px-2"
                 >
                   À propos
+                </motion.button>
+                <motion.button
+                  whileHover={{ x: 5 }}
+                  onClick={() => handleNavigation('/blog')}
+                  className="block text-sm sm:text-base font-medium text-gray-900 hover:text-eco-green-600 transition-colors duration-200 w-full text-left py-1.5 hover:bg-eco-green-50/50 rounded-lg px-2"
+                >
+                  Blog
                 </motion.button>
               </div>
 
